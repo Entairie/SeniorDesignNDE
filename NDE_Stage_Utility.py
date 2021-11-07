@@ -11,7 +11,7 @@ import time
 
 pi = pigpio.pi()
 
-delay = 0.0025
+delay = 0.00025
 steps = 1600
 Dir = 0
         # 0 ~~> Clockwise ~~> towards motor
@@ -26,16 +26,16 @@ def StartUpZero():
     pi.set_pull_up_down(11, pigpio.PUD_UP)  # -- z axis
     
     pi.write(23, 0)     # x Dir low ~~> towards motor
-    pi.write(27, 0)     # y Dir high ~~> towards motor
-    pi.write(6, 0)      # z Dir high ~~> towards motor
+    pi.write(27, 1)     # y Dir high ~~> towards motor
+    pi.write(5, 0)      # z Dir low ~~> away motor
     
     # Zero X
     input_state_x = True      # Switch not pushed
     while input_state_x == True:  # While switch not pushed
-        pi.write(10, 1)         # Set local pi's GPIO BCM 10 high
-        time.sleep(delay)
-        pi.write(10, 0)         # Set local pi's GPIO BCM 10 low
-        time.sleep(delay)
+        pi.write(24, 1)         # Set local pi's GPIO BCM 10 high
+        time.sleep(0.0025)
+        pi.write(24, 0)         # Set local pi's GPIO BCM 10 low
+        time.sleep(0.0025)
         input_state_x = pi.read(10)   # reads 1/True/not pushed or 0/False/pushed
     
     # Zero Y
