@@ -60,11 +60,13 @@ def MoveToHome(x, y, z):
     # Moves sensor from zero to home to start scan
     # x, y, z are distances in m that Sensor will move to home point
 
-    # 12.5 um / step        1 step = 0.0000125
-    StepConv = 0.0000125
-    xStep = round(x/StepConv)
-    yStep = round(y/StepConv)
-    zStep = round(z/StepConv)
+    # 12.5 um / step        1 step = 0.0000125 m
+    # 3.175 um / step       1 step = 0.000003175 m
+    PreStepConv = 0.0000125
+    TheStepConv = 0.000003175
+    xStep = round(x/PreStepConv)
+    yStep = round(y/TheStepConv)
+    zStep = round(z/TheStepConv)
 
     pi.write(23, 1)     # x Dir ~~> away motor
     pi.write(27, 0)     # y Dir ~~> away motor
