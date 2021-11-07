@@ -10,6 +10,7 @@ a.digital[5].mode = fir.OUTPUT  # Y Step pin
 a.digital[6].mode = fir.OUTPUT  # Z Direction pin
 a.digital[7].mode = fir.OUTPUT  # Z Step pin
 
+# Changes to test update
 
 def StartUpZero():
     a.digital[2].write(0)       # Clockwise, towards motors
