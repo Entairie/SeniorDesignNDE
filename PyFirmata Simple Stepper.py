@@ -7,7 +7,17 @@ StartUpZero()
 
 # x, y, z are dist of home in m
 
-x = 0.1
-y = 0.1
-z = 0.15
+# start point
+x = 0.075
+y = 0.04
+z = 0.3
+
 MoveToHome(x, y, z)
+
+# length of specimim
+# rectangle
+length = 0.145
+width = 0.075
+
+RectScan(length, width)
+
