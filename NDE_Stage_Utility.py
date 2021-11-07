@@ -55,3 +55,40 @@ def StartUpZero():
         pi.write(6, 0)
         time.sleep(delay)
         input_state_z = pi.read(11)
+
+def MoveToHome(x, y, z):
+    # Moves sensor from zero to home to start scan
+    # x, y, z are distances in m that Sensor will move to home point
+
+    # 12.5 um / step        1 step = 0.0000125
+    StepConv = 0.0000125
+    xStep = round(x/StepConv)
+    yStep = round(y/StepConv)
+    zStep = round(z/StepConv)
+
+    pi.write(23, 1)     # x Dir ~~> away motor
+    pi.write(27, 0)     # y Dir ~~> away motor
+    pi.write(5, 1)      # z Dir ~~> towards motor
+
+
+    # Move to x home
+    for x in range(xStep):  # While switch not pushed
+        pi.write(24, 1)         # Set local pi's GPIO BCM 10 high
+        time.sleep(0.0025)
+        pi.write(24, 0)         # Set local pi's GPIO BCM 10 low
+        time.sleep(0.0025)
+    
+    # Move to y home
+    for y in range(yStep):
+        pi.write(22, 1)
+        time.sleep(delay)
+        pi.write(22, 0)
+        time.sleep(delay)
+    
+    # Move to z home
+    for z in range(zStep):
+        pi.write(6, 1)
+        time.sleep(delay)
+        pi.write(6, 0)
+        time.sleep(delay)
+
