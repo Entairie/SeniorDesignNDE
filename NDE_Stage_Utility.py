@@ -1,6 +1,7 @@
 import pyfirmata as fir
 import time
 
+# Change on PC to see on Pi
 
 a = fir.Arduino('COM3')         # Set up Firmata on COM3
 a.digital[2].mode = fir.OUTPUT  # X Direction pin
@@ -9,8 +10,6 @@ a.digital[4].mode = fir.OUTPUT  # Y Direction pin
 a.digital[5].mode = fir.OUTPUT  # Y Step pin
 a.digital[6].mode = fir.OUTPUT  # Z Direction pin
 a.digital[7].mode = fir.OUTPUT  # Z Step pin
-
-# Changes to test update
 
 def StartUpZero():
     a.digital[2].write(0)       # Clockwise, towards motors
