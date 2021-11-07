@@ -2,6 +2,7 @@ import pyfirmata as fir
 import time
 
 # Change on PC to see on Pi
+# Change on Pi to see on PC
 
 a = fir.Arduino('COM3')         # Set up Firmata on COM3
 a.digital[2].mode = fir.OUTPUT  # X Direction pin
