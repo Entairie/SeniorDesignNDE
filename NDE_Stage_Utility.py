@@ -74,7 +74,7 @@ def MoveToHome(x, y, z):
 
 
     # Move to x home
-    for x in range(xStep):  # While switch not pushed
+    for x in range(xStep):
         pi.write(24, 1)         # Set local pi's GPIO BCM 10 high
         time.sleep(0.0025)
         pi.write(24, 0)         # Set local pi's GPIO BCM 10 low
@@ -93,4 +93,34 @@ def MoveToHome(x, y, z):
         time.sleep(delay)
         pi.write(6, 0)
         time.sleep(delay)
+
+def RectScan(length, width):
+    
+    PreStepConv = 0.0000125
+    TheStepConv = 0.000003175
+    xStep = round(length/PreStepConv)
+    xIndent = round(xStep/20)
+    yStep = round(width/TheStepConv)
+
+    yDir = 0
+    for indent in range(xIndent):
+        for x in range(20):
+            pi.write(23, 1)     # x Dir ~~> away motor
+            pi.write(24, 1)
+            time.sleep(0.0025)
+            pi.write(24, 0)
+            time.sleep(0.0025)
+
+        pi.write(27, yDir)     # y Dir ~~> initial away motor
+        for y in range(yStep):
+            pi.write(22, 1)
+            time.sleep(delay)
+            pi.write(22, 0)
+            time.sleep(delay)
+        if yDir == 0:
+            yDir = 1
+        else:
+            yDir = 0
+    
+    
 
