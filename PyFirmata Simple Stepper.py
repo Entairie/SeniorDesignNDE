@@ -6,7 +6,7 @@ from NDE_Stage_Utility import * # my custom stage library
 # x, y, z are dist of home from zero in m
 x = 0.075
 y = 0.04
-z = 0.3
+z = 0.2
 
 # length and width of rectangle specimin in m
 length = 0.145
