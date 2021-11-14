@@ -127,6 +127,3 @@ def RectScan(length, width, ScanWidth):
             yDir = 1
         else:
             yDir = 0
-    
-    
-
