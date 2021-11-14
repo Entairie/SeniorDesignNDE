@@ -63,18 +63,43 @@ def StartUpZero():
         pi.write(6, 0)
         time.sleep(yzdelay)
         input_state_z = pi.read(11)
+    
+    # Return zeroed position
+    if input_state_x == False and input_state_y == False and input_state_z == False:
+        return [0, 0, 0]
 
-def MoveToHome(x, y, z):
+def MoveToHome(xn, yn, zn, Xc, Yc, Zc):
     # Moves sensor from zero to home to start scan
-    # x, y, z are distances in m that Sensor will move to home point
+    # xn, yn, zn are distances in m of the point from zero that we move to
+    # Xc, Yc, Zc are the current position of the sensor
+
+    # Calc x move dist & dir
+    if xn > Xc:     # Move away from zero/motor
+        x = xn - Xc
+        pi.write(23, 1)     # x Dir ~~> away zero/motor
+    else:           # Move towards zero
+        x = Xc - xn
+        pi.write(23, 0)
+    
+    # Calc y move dist & dir
+    if yn > Yc:     # Move away from zero/motor
+        y = yn - Yc
+        pi.write(27, 0)     # y Dir ~~> away motor
+    else:           # Move towards zero
+        y = Yc - yn
+        pi.write(27, 1)
+    
+    # Calc z move dist & dir
+    if zn > Zc:     # Move away from zero and towards motor
+        z = zn - Zc
+        pi.write(5, 1)      # z Dir ~~> towards motor and away from zero
+    else:           # Move towards zero and away from motor
+        z = Zc - zn
+        pi.write(5, 0)
 
     xStep = round(x/PreStepConv)
     yStep = round(y/TheStepConv)
     zStep = round(z/TheStepConv)
-
-    pi.write(23, 1)     # x Dir ~~> away motor
-    pi.write(27, 0)     # y Dir ~~> away motor
-    pi.write(5, 1)      # z Dir ~~> towards motor
 
     # Move to x home
     for x in range(xStep):
@@ -97,30 +122,37 @@ def MoveToHome(x, y, z):
         pi.write(6, 0)
         time.sleep(yzdelay)
 
-def RectScan(length, width, ScanWidth):
+def RectScan(xLength, yLength, ScanWidthMeters, speed):
+    # All values in m, m, m, m/s
+
+    XScanWidth = ScanWidthMeters/PreStepConv    # - Convert scan width from m to steps
+    YScanWidth = ScanWidthMeters/TheStepConv    # /
     
-    xStep = round(length/PreStepConv)
-    xIndent = round(xStep/ScanWidth)
-    yStep = round(width/TheStepConv)
-    yIndent = round(yStep/ScanWidth)
+    xStep = round(xLength/PreStepConv)      # Convert x length from m to Steps
+    xIndent = round(xStep/XScanWidth)       # number of times to indent x for new line of scans
+    yStep = round(yLength/TheStepConv)
+    yIndent = round(yStep/YScanWidth)
+
+    xScandelay = (PreStepConv/speed)/2
+    yScandelay = (TheStepConv/speed)/2
 
     yDir = 0
     pi.write(23, 1)     # x Dir ~~> away motor
 
     for indent in range(xIndent):
-        for x in range(ScanWidth):
+        for x in range(XScanWidth):
             pi.write(24, 1)
-            time.sleep(xdelay)
+            time.sleep(xScandelay)
             pi.write(24, 0)
-            time.sleep(xdelay)
+            time.sleep(xScandelay)
 
         pi.write(27, yDir)     # y Dir ~~> initial away motor
         for y in range(yIndent):
-            for y in range(ScanWidth):
+            for y in range(YScanWidth):
                 pi.write(22, 1)
-                time.sleep(yzdelay)
+                time.sleep(yScandelay)
                 pi.write(22, 0)
-                time.sleep(yzdelay)
+                time.sleep(yScandelay)
             time.sleep(1)       # This time would be taken to scan and record value
                                 # Insert Scan function here
         if yDir == 0:
