@@ -125,13 +125,13 @@ def MoveToHome(xn, yn, zn, Xc, Yc, Zc):
 def RectScan(xLength, yLength, ScanWidthMeters, speed):
     # All values in m, m, m, m/s
 
-    XScanWidth = ScanWidthMeters/PreStepConv    # - Convert scan width from m to steps
-    YScanWidth = ScanWidthMeters/TheStepConv    # /
+    XScanWidth = int(ScanWidthMeters/PreStepConv)    # - Convert scan width from m to steps
+    YScanWidth = int(ScanWidthMeters/TheStepConv)    # /
     
     xStep = round(xLength/PreStepConv)      # Convert x length from m to Steps
-    xIndent = round(xStep/XScanWidth)       # number of times to indent x for new line of scans
+    xIndent = int(round(xStep/XScanWidth))       # number of times to indent x for new line of scans
     yStep = round(yLength/TheStepConv)
-    yIndent = round(yStep/YScanWidth)
+    yIndent = int(round(yStep/YScanWidth))
 
     xScandelay = (PreStepConv/speed)/2
     yScandelay = (TheStepConv/speed)/2
