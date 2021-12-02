@@ -1,6 +1,11 @@
 import PySimpleGUI as sg
 from NDE_Stage_Utility import * # my custom stage library
 
+###########################################################################
+#           Before startup, in terminal, run:
+#           sudo pigpiod
+###########################################################################
+
 sg.theme('BluePurple')
 
 layout = [[sg.Text('Always zero machine on startup'), sg.Button('Zero Machine', pad=(10,0))],
