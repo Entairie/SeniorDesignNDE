@@ -136,26 +136,26 @@ def RectScan(xLength, yLength, ScanWidthMeters, speed):
     xScandelay = (PreStepConv/speed)/2
     yScandelay = (TheStepConv/speed)/2
 
-    yDir = 0
-    pi.write(23, 1)     # x Dir ~~> away motor
+    xDir = 1
+    pi.write(27, 0)     # y Dir ~~> away motor
 
-    for indent in range(xIndent):
-        for x in range(XScanWidth):
-            pi.write(24, 1)
-            time.sleep(xScandelay)
-            pi.write(24, 0)
-            time.sleep(xScandelay)
+    for indent in range(yIndent):
+        for y in range(YScanWidth):
+            pi.write(22, 1)
+            time.sleep(yScandelay)
+            pi.write(22, 0)
+            time.sleep(yScandelay)
 
-        pi.write(27, yDir)     # y Dir ~~> initial away motor
-        for y in range(yIndent):
-            for y in range(YScanWidth):
-                pi.write(22, 1)
-                time.sleep(yScandelay)
-                pi.write(22, 0)
-                time.sleep(yScandelay)
+        pi.write(23, xDir)     # x Dir ~~> initial away motor
+        for x in range(xIndent):
+            for x in range(XScanWidth):
+                pi.write(24, 1)
+                time.sleep(xScandelay)
+                pi.write(24, 0)
+                time.sleep(xScandelay)
             time.sleep(1)       # This time would be taken to scan and record value
                                 # Insert Scan function here
-        if yDir == 0:
-            yDir = 1
+        if xDir == 0:
+            xDir = 1
         else:
-            yDir = 0
+            xDir = 0
