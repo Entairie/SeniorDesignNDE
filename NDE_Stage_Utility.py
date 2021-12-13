@@ -44,7 +44,7 @@ def StartUpZero():
         time.sleep(xdelay)
         pi.write(24, 0)         # Set local pi's GPIO BCM 10 low
         time.sleep(xdelay)
-        input_state_x = pi.read(10)   # reads 1/True/not pushed or 0/False/pushed
+        input_state_x = pi.read(10) # reads 1/True/not pushed or 0/False/pushed
     
     # Zero Y
     input_state_y = True
@@ -65,7 +65,8 @@ def StartUpZero():
         input_state_z = pi.read(11)
     
     # Return zeroed position
-    if input_state_x == False and input_state_y == False and input_state_z == False:
+    if (input_state_x == False and input_state_y == False and
+        input_state_z == False):
         return [0, 0, 0]
 
 def MoveToHome(xn, yn, zn, Xc, Yc, Zc):
@@ -125,12 +126,12 @@ def MoveToHome(xn, yn, zn, Xc, Yc, Zc):
 def RectScan(xLength, yLength, ScanWidthMeters, speed):
     # All values in m, m, m, m/s
 
-    XScanWidth = int(ScanWidthMeters/PreStepConv)    # - Convert scan width from m to steps
-    YScanWidth = int(ScanWidthMeters/TheStepConv)    # /
+    XScanWidth = int(ScanWidthMeters/PreStepConv)    # - Convert scan width 
+    YScanWidth = int(ScanWidthMeters/TheStepConv)    #   from m to steps
     
     xStep = round(xLength/PreStepConv)      # Convert x length from m to Steps
-    xIndent = int(round(xStep/XScanWidth))       # number of times to indent x for new line of scans
-    yStep = round(yLength/TheStepConv)
+    xIndent = int(round(xStep/XScanWidth))  # number of times to indent x for 
+    yStep = round(yLength/TheStepConv)      # new line of scans
     yIndent = int(round(yStep/YScanWidth))
 
     xScandelay = (PreStepConv/speed)/2
@@ -153,7 +154,7 @@ def RectScan(xLength, yLength, ScanWidthMeters, speed):
                 time.sleep(xScandelay)
                 pi.write(24, 0)
                 time.sleep(xScandelay)
-            time.sleep(1)       # This time would be taken to scan and record value
+            time.sleep(1)       # This time would be taken to scan/record
                                 # Insert Scan function here
         if xDir == 0:
             xDir = 1
